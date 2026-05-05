@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>QUICK · Tablero Operativo Crossdocking 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&family=Barlow+Semi+Condensed:wght@500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+:root{--dk:#003366;--md:#0057A8;--lt:#1A7ED4;--xl:#D6E4F0;--xxl:#EBF3FB;--g1:#3A3A3A;--g2:#6B6B6B;--g3:#BABABA;--bg:#F2F5F9;--ac:#0096D6;--bd:#C8D8E8;--sh:0 2px 10px rgba(0,51,102,.08);--shh:0 6px 24px rgba(0,51,102,.14);--r:10px;--fh:'Barlow Condensed',sans-serif;--fb:'Barlow',sans-serif;--fs:'Barlow Semi Condensed',sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--g1);font-family:var(--fb);font-size:14px;min-height:100vh}
+#loader{position:fixed;inset:0;background:var(--dk);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;z-index:999}
+.l-logo{font-family:var(--fh);font-size:60px;font-weight:800;letter-spacing:14px;color:#fff}
+.l-sub{font-family:var(--fs);font-size:11px;color:rgba(255,255,255,.4);letter-spacing:4px;margin-top:-14px}
+.l-bar{width:180px;height:3px;background:rgba(255,255,255,.12);border-radius:2px;overflow:hidden}
+.l-fill{height:100%;background:#fff;animation:ld 1.8s ease-in-out infinite}
+@keyframes ld{0%{width:0%;margin-left:0}50%{width:55%;margin-left:22%}100%{width:0%;margin-left:100%}}
+#lmsg{font-family:var(--fs);font-size:10px;color:rgba(255,255,255,.35);letter-spacing:3px}
+header{background:var(--dk);height:62px;padding:0 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.22)}
+.brand{display:flex;align-items:center;gap:13px}
+.bmark{width:38px;height:38px;border-radius:8px;background:var(--md);display:flex;align-items:center;justify-content:center;border:1.5px solid rgba(255,255,255,.18)}
+.bmark svg{width:20px;height:20px;fill:#fff}
+.bname{font-family:var(--fh);font-size:24px;font-weight:800;letter-spacing:5px;color:#fff}
+.bdesc{font-family:var(--fs);font-size:10px;color:rgba(255,255,255,.45);letter-spacing:2px;margin-top:1px}
+.hdr-r{display:flex;align-items:center;gap:12px}
+.live{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);padding:5px 12px;border-radius:20px;font-family:var(--fs);font-size:11px;color:rgba(255,255,255,.7);letter-spacing:1px}
+.dlive{width:7px;height:7px;border-radius:50%;background:#4ADE80;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.65)}}
+#ts{font-size:11px;color:rgba(255,255,255,.35);font-family:var(--fs)}
+.fbar{background:#fff;border-bottom:1px solid var(--bd);padding:11px 28px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.flbl{font-family:var(--fs);font-size:10px;font-weight:600;color:var(--g2);letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap}
+.fgrp{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+select{font-family:var(--fb);font-size:12.5px;border:1.5px solid var(--bd);border-radius:7px;padding:6px 26px 6px 10px;background:#fff;color:var(--g1);cursor:pointer;outline:none;transition:border-color .18s;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236B6B6B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;min-width:128px}
+select:focus{border-color:var(--md)}
+.fdiv{width:1px;height:24px;background:var(--bd);margin:0 2px}
+.btn-r{font-family:var(--fs);font-size:11px;font-weight:600;padding:6px 14px;border-radius:7px;border:1.5px solid var(--xl);background:var(--xxl);color:var(--md);cursor:pointer;transition:all .15s;white-space:nowrap}
+.btn-r:hover{background:var(--xl)}
+#fresumen{font-family:var(--fs);font-size:10px;color:var(--md);background:var(--xxl);border:1px solid var(--xl);padding:3px 10px;border-radius:20px;display:none}
+main{padding:20px 28px;display:grid;gap:16px}
+.strip{display:grid;grid-template-columns:repeat(5,1fr);background:#fff;border:1px solid var(--bd);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+.si{padding:12px 16px;border-right:1px solid var(--bd)}
+.si:last-child{border-right:none}
+.si-lbl{font-family:var(--fs);font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--g2);margin-bottom:3px}
+.si-val{font-family:var(--fh);font-size:20px;font-weight:700;color:var(--dk);letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.kpi{background:#fff;border-radius:var(--r);border:1px solid var(--bd);padding:18px 20px;position:relative;overflow:hidden;box-shadow:var(--sh);transition:transform .18s,box-shadow .18s}
+.kpi:hover{transform:translateY(-2px);box-shadow:var(--shh)}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.k0::before{background:var(--dk)}.k1::before{background:var(--md)}.k2::before{background:var(--lt)}.k3::before{background:var(--ac)}.k4::before{background:var(--g2)}
+.kpi-ico{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-size:14px}
+.k0 .kpi-ico{background:var(--xxl)}.k1 .kpi-ico{background:#E4EEFB}.k2 .kpi-ico{background:#DDF0FF}.k3 .kpi-ico{background:#D8F4FF}.k4 .kpi-ico{background:var(--bg)}
+.kpi-lbl{font-family:var(--fs);font-size:9.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--g2);margin-bottom:4px}
+.kpi-val{font-family:var(--fh);font-size:38px;font-weight:800;color:var(--dk);line-height:1;letter-spacing:-1px}
+.kpi-sub{font-size:11px;color:var(--g3);margin-top:3px;font-family:var(--fs)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.row3{display:grid;grid-template-columns:3fr 2fr;gap:16px}
+.card{background:#fff;border-radius:var(--r);border:1px solid var(--bd);padding:20px 22px;box-shadow:var(--sh)}
+.card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.card-ttl{font-family:var(--fh);font-size:14px;font-weight:700;letter-spacing:1px;color:var(--dk);text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.cw{position:relative}.h260{height:260px}.h300{height:300px}.h340{height:340px}
+.tabs{display:flex;gap:3px}
+.tab{font-family:var(--fs);font-size:11px;font-weight:600;padding:4px 10px;border-radius:5px;cursor:pointer;border:1.5px solid var(--bd);color:var(--g2);background:#fff;transition:all .14s}
+.tab.on{background:var(--dk);color:#fff;border-color:var(--dk)}
+.tab:hover:not(.on){border-color:var(--md);color:var(--md)}
+.tw{overflow:auto;max-height:270px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+thead th{font-family:var(--fs);font-size:9.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--g2);padding:8px 12px;border-bottom:2px solid var(--xl);background:#fff;position:sticky;top:0;z-index:1;text-align:left}
+tbody tr{border-bottom:1px solid rgba(200,216,232,.4);transition:background .1s}
+tbody tr:hover{background:var(--xxl)}
+tbody td{padding:8px 12px}
+.tu{font-family:var(--fs);font-weight:700;color:var(--dk);text-align:right}
+.tc{color:var(--md);font-weight:500}
+.tp{font-family:var(--fs);font-size:11px;color:var(--g2);text-align:right}
+.tbar{width:70px;height:5px;background:var(--xl);border-radius:3px;display:inline-block;vertical-align:middle;margin-left:7px;overflow:hidden}
+.tbar span{display:block;height:100%;border-radius:3px}
+.err{background:#FEF2F2;border:1px solid #FECACA;border-radius:10px;padding:20px;color:#7F1D1D;font-family:var(--fs);font-size:13px;line-height:1.8}
+.err strong{color:#991B1B}.err code{background:#FEE2E2;padding:2px 6px;border-radius:4px;font-size:12px}
+#cfg-btn{position:fixed;bottom:18px;right:18px;background:var(--dk);color:rgba(255,255,255,.55);border:none;border-radius:8px;padding:8px 13px;font-family:var(--fs);font-size:11px;cursor:pointer;z-index:50;transition:all .18s;box-shadow:var(--sh)}
+#cfg-btn:hover{color:#fff;background:var(--md)}
+@media(max-width:1200px){.kpi-row,.strip{grid-template-columns:repeat(3,1fr)}.row2,.row3{grid-template-columns:1fr}.si{border-bottom:1px solid var(--bd);border-right:none}}
+@media(max-width:640px){main,.fbar,header{padding-left:14px;padding-right:14px}.kpi-row{grid-template-columns:1fr 1fr}.strip{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div id="loader">
+  <div class="l-logo">QUICK</div>
+  <div class="l-sub">TABLERO OPERATIVO · CROSSDOCKING 2026</div>
+  <div class="l-bar"><div class="l-fill"></div></div>
+  <p id="lmsg">CONECTANDO · · ·</p>
+</div>
+<header>
+  <div class="brand">
+    <div class="bmark"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+    <div><div class="bname">QUICK</div><div class="bdesc">Tablero Operativo · Crossdocking 2026</div></div>
+  </div>
+  <div class="hdr-r"><span id="ts">–</span><div class="live"><div class="dlive"></div>EN VIVO</div></div>
+</header>
+<div class="fbar">
+  <span class="flbl">Filtrar</span>
+  <div class="fgrp">
+    <select id="f-ciudad"><option value="">Todas las ciudades</option></select>
+    <select id="f-cliente"><option value="">Todos los clientes</option></select>
+    <select id="f-mes"><option value="">Todos los meses</option></select>
+    <select id="f-semana"><option value="">Todas las semanas</option></select>
+    <select id="f-dia"><option value="">Todos los días</option></select>
+  </div>
+  <div class="fdiv"></div>
+  <button class="btn-r" onclick="resetF()">↺ Limpiar</button>
+  <span id="fresumen"></span>
+</div>
+<main id="mc" style="display:none">
+  <div class="strip">
+    <div class="si"><div class="si-lbl">Período</div><div class="si-val" id="s-per">–</div></div>
+    <div class="si"><div class="si-lbl">Ciudad Líder</div><div class="si-val" id="s-cl">–</div></div>
+    <div class="si"><div class="si-lbl">Cliente Líder</div><div class="si-val" id="s-cc">–</div></div>
+    <div class="si"><div class="si-lbl">Prom. / Día</div><div class="si-val" id="s-pd">–</div></div>
+    <div class="si"><div class="si-lbl">Días con Operación</div><div class="si-val" id="s-dd">–</div></div>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi k0"><div class="kpi-ico">📦</div><div class="kpi-lbl">Total Unidades</div><div class="kpi-val" id="kv0">–</div><div class="kpi-sub" id="ks0">acumulado</div></div>
+    <div class="kpi k1"><div class="kpi-ico">📋</div><div class="kpi-lbl">Registros</div><div class="kpi-val" id="kv1">–</div><div class="kpi-sub">filas diligenciadas</div></div>
+    <div class="kpi k2"><div class="kpi-ico">🏙️</div><div class="kpi-lbl">Ciudades</div><div class="kpi-val" id="kv2">–</div><div class="kpi-sub">activas</div></div>
+    <div class="kpi k3"><div class="kpi-ico">🤝</div><div class="kpi-lbl">Clientes</div><div class="kpi-val" id="kv3">–</div><div class="kpi-sub">en operación</div></div>
+    <div class="kpi k4"><div class="kpi-ico">🔝</div><div class="kpi-lbl">Pico del Día</div><div class="kpi-val" id="kv4">–</div><div class="kpi-sub" id="ks4">mayor volumen</div></div>
+  </div>
+  <div class="row2">
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-ttl"><span class="dot" style="background:var(--dk)"></span>TENDENCIA OPERATIVA</div>
+        <div class="tabs">
+          <button class="tab" onclick="swT('dia',this)">Día</button>
+          <button class="tab on" onclick="swT('semana',this)">Semana</button>
+          <button class="tab" onclick="swT('mes',this)">Mes</button>
+        </div>
+      </div>
+      <div class="cw h300"><canvas id="ch-tend"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-ttl"><span class="dot" style="background:var(--md)"></span>UNIDADES POR CIUDAD</div>
+        <div class="tabs">
+          <button class="tab on" onclick="swCiudad('y',this)">Horizontal</button>
+          <button class="tab" onclick="swCiudad('x',this)">Vertical</button>
+        </div>
+      </div>
+      <div class="cw h300"><canvas id="ch-ciudad"></canvas></div>
+    </div>
+  </div>
+  <div class="row3">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl"><span class="dot" style="background:var(--ac)"></span>DETALLE POR CIUDAD</div></div>
+      <div class="tw">
+        <table>
+          <thead><tr><th>#</th><th>Ciudad</th><th style="text-align:right">Unidades</th><th style="text-align:right">Registros</th><th style="text-align:right">% Part.</th><th>Participación</th></tr></thead>
+          <tbody id="tb-ciudad"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl"><span class="dot" style="background:var(--g2)"></span>CLIENTES</div></div>
+      <div class="cw h340"><canvas id="ch-cliente"></canvas></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl"><span class="dot" style="background:var(--lt)"></span>DETALLE POR CLIENTE</div></div>
+    <div class="tw">
+      <table>
+        <thead><tr><th>#</th><th>Cliente</th><th style="text-align:right">Unidades</th><th style="text-align:right">Registros</th><th style="text-align:right">% Part.</th><th>Participación</th></tr></thead>
+        <tbody id="tb-cliente"></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+<button id="cfg-btn" onclick="doCfg()">⚙ URL Sheet</button>
+<script>
+const DEFAULT_URL='PEGA_AQUI_LA_URL_CSV_DE_DATA_PLANA';
+const SK='quick_op_2026';const REFRESH=60000;
+const PROXIES=[u=>u,u=>`https://corsproxy.io/?${encodeURIComponent(u)}`,u=>`https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`];
+const PAL=['#003366','#0057A8','#1A7ED4','#0096D6','#4AB3E8','#6EC6F0','#003A75','#004D99','#0068C2','#2589D8','#50A8E0','#7AC0EC','#3A3A3A','#5A5A5A','#7A7A7A','#9A9A9A','#BABABA'];
+let RAW=[],FILT=[],CH={},tMode='semana',cAxis='y';
+function parseCSV(txt){
+  const lines=txt.replace(/\r/g,'').split('\n').filter(l=>l.trim());
+  if(lines.length<2)return[];
+  let hi=0;
+  for(let i=0;i<Math.min(5,lines.length);i++){const l=lines[i].toLowerCase();if(l.includes('fecha')||l.includes('ciudad')||l.includes('unidades')){hi=i;break;}}
+  const hdr=spL(lines[hi]).map(h=>h.toLowerCase().trim().replace(/[áàä]/g,'a').replace(/[éèë]/g,'e').replace(/[íìï]/g,'i').replace(/[óòö]/g,'o').replace(/[úùü]/g,'u').replace(/ñ/g,'n').replace(/[^a-z0-9]/g,''));
+  const ix={fecha:fi(hdr,['fecha','date']),ciudad:fi(hdr,['ciudad','city']),cliente:fi(hdr,['cliente','client']),unid:fi(hdr,['unidades','units','paquetes']),mes:fi(hdr,['mes','month']),semana:fi(hdr,['semana','week'])};
+  const rows=[];
+  for(let i=hi+1;i<lines.length;i++){
+    const c=spL(lines[i]),f=gv(c,ix.fecha),ci=gv(c,ix.ciudad),cl=gv(c,ix.cliente),u=gv(c,ix.unid);
+    if(!f||!ci||!cl||!u)continue;
+    const unidades=pn(u);if(unidades<=0)continue;
+    const d=pd(f);if(!d)continue;
+    rows.push({fecha:f,ciudad:ci,cliente:cl,unidades,mes:gv(c,ix.mes)||mLbl(d),semana:gv(c,ix.semana)||`Sem ${isoW(d)[1]}`,_date:d,_dk:dK(d),_sk:sK(d),_mk:mK(d)});
+  }
+  return rows;
+}
+function fi(h,ks){for(const k of ks){const i=h.findIndex(x=>x===k||x.startsWith(k));if(i>=0)return i;}return -1;}
+function gv(c,i){return i>=0?(c[i]||'').trim():'';}
+function spL(l){const a=[];let cur='',q=false;for(let i=0;i<l.length;i++){const c=l[i];if(c==='"')q=!q;else if(c===','&&!q){a.push(cur);cur='';}else cur+=c;}a.push(cur);return a;}
+function pn(s){if(!s)return 0;s=s.replace(/[%$\s]/g,'').trim();if(s.match(/^\d{1,3}(\.\d{3})+(,\d+)?$/))return parseFloat(s.replace(/\./g,'').replace(',','.'));return parseFloat(s.replace(/\./g,'').replace(',','.'))||0;}
+function pd(s){if(!s)return null;let m=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);if(m)return new Date(+m[3],+m[2]-1,+m[1]);m=s.match(/^(\d{4})-(\d{2})-(\d{2})/);if(m)return new Date(+m[1],+m[2]-1,+m[3]);return null;}
+function p2(n){return String(n).padStart(2,'0');}
+function dK(d){return`${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`;}
+function sK(d){const[y,w]=isoW(d);return`${y}-S${p2(w)}`;}
+function mK(d){return`${d.getFullYear()}-${p2(d.getMonth()+1)}`;}
+function isoW(d){const j=new Date(d.getFullYear(),0,4),diff=Math.round((d-j)/86400000),w=Math.ceil((diff+j.getDay()+1)/7);return[d.getFullYear(),w];}
+function mLbl(d){return d.toLocaleDateString('es-CO',{month:'short',year:'numeric'});}
+function fmtDia(k){const[,m,d]=k.split('-');return`${d}/${m}`;}
+function fmtDiaFull(k){const[y,m,d]=k.split('-');return`${d}/${m}/${y}`;}
+function fmtSem(k){return k.replace('-S',' S');}
+function fmtMes(k){const[y,m]=k.split('-');return new Date(+y,+m-1,1).toLocaleDateString('es-CO',{month:'short',year:'2-digit'});}
+function applyF(){
+  const vc=g('f-ciudad').value,vl=g('f-cliente').value,vm=g('f-mes').value,vs=g('f-semana').value,vd=g('f-dia').value;
+  FILT=RAW.filter(r=>{if(vc&&r.ciudad!==vc)return false;if(vl&&r.cliente!==vl)return false;if(vm&&r._mk!==vm)return false;if(vs&&r._sk!==vs)return false;if(vd&&r._dk!==vd)return false;return true;});
+  const parts=[vc,vl,vm&&fmtMes(vm),vs&&fmtSem(vs),vd&&fmtDia(vd)].filter(Boolean);
+  const fr=g('fresumen');
+  if(parts.length){fr.textContent=parts.join(' · ');fr.style.display='inline-block';}else fr.style.display='none';
+  render();
+}
+function resetF(){['f-ciudad','f-cliente','f-mes','f-semana','f-dia'].forEach(id=>g(id).value='');g('fresumen').style.display='none';FILT=[...RAW];render();}
+function popF(){
+  fillS('f-ciudad',uniq(RAW.map(r=>r.ciudad)).sort());
+  fillS('f-cliente',uniq(RAW.map(r=>r.cliente)).sort());
+  const mes=uniq(RAW.map(r=>r._mk)).sort();fillSL('f-mes',mes,mes.map(fmtMes));
+  const sem=uniq(RAW.map(r=>r._sk)).sort();fillSL('f-semana',sem,sem.map(fmtSem));
+  const dias=uniq(RAW.map(r=>r._dk)).sort();fillSL('f-dia',dias,dias.map(fmtDia));
+}
+function fillS(id,v){fillSL(id,v,v);}
+function fillSL(id,vals,lbls){const s=g(id),cur=s.value;while(s.options.length>1)s.remove(1);vals.forEach((v,i)=>s.appendChild(new Option(lbls[i],v)));s.value=cur;}
+function uniq(a){return[...new Set(a.filter(Boolean))];}
+function aggBy(rows,key){const m={};rows.forEach(r=>{const k=r[key];if(!k)return;m[k]=(m[k]||0)+r.unidades;});return m;}
+Chart.defaults.font={family:"'Barlow',sans-serif",size:11};Chart.defaults.color='#6B6B6B';
+const grd={color:'rgba(0,51,102,.06)'};const tk={font:{size:11,family:"'Barlow Semi Condensed',sans-serif"}};
+Chart.register({id:'qlabels',afterDatasetsDraw(chart){
+  const ctx=chart.ctx;
+  chart.data.datasets.forEach((ds,di)=>{
+    const meta=chart.getDatasetMeta(di);
+    if(meta.hidden||meta.type==='doughnut')return;
+    meta.data.forEach((bar,bi)=>{
+      const val=ds.data[bi];if(!val||val===0)return;
+      const lbl=Number(val).toLocaleString('es-CO');
+      ctx.save();ctx.font=`600 10px 'Barlow Semi Condensed',sans-serif`;ctx.fillStyle='#003366';
+      const isH=chart.options.indexAxis==='y';
+      if(isH){ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillText(lbl,bar.x+4,bar.y);}
+      else{ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText(lbl,bar.x,bar.y-3);}
+      ctx.restore();
+    });
+  });
+}});
+function mu(id,cfg){if(CH[id]){CH[id].data=cfg.data;CH[id].options=cfg.options;CH[id].config.type=cfg.type;CH[id].update('none');}else CH[id]=new Chart(document.getElementById(id),cfg);}
+function rTend(){
+  const maps={dia:aggBy(FILT,'_dk'),semana:aggBy(FILT,'_sk'),mes:aggBy(FILT,'_mk')};
+  const fmts={dia:fmtDia,semana:fmtSem,mes:fmtMes};
+  const entries=Object.entries(maps[tMode]).sort((a,b)=>a[0].localeCompare(b[0]));
+  mu('ch-tend',{type:'bar',data:{labels:entries.map(e=>fmts[tMode](e[0])),datasets:[{label:'Unidades',data:entries.map(e=>e[1]),backgroundColor:PAL[1]+'BB',borderColor:PAL[1],borderWidth:1,borderRadius:4}]},
+  options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:24,right:10}},plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.parsed.y.toLocaleString('es-CO')} uds`}}},
+  scales:{x:{grid:{display:false},ticks:{...tk,maxRotation:tMode==='dia'?65:30}},y:{grid:grd,ticks:{...tk,callback:v=>v.toLocaleString('es-CO')}}}}});
+}
+function rCiudad(){
+  const isH=cAxis==='y';const m=aggBy(FILT,'ciudad');const s=Object.entries(m).sort((a,b)=>b[1]-a[1]);
+  mu('ch-ciudad',{type:'bar',data:{labels:s.map(e=>e[0]),datasets:[{label:'Unidades',data:s.map(e=>e[1]),backgroundColor:s.map((_,i)=>PAL[i%PAL.length]+'BB'),borderColor:s.map((_,i)=>PAL[i%PAL.length]),borderWidth:1,borderRadius:4}]},
+  options:{indexAxis:cAxis,responsive:true,maintainAspectRatio:false,layout:{padding:{right:isH?70:0,top:isH?0:24}},plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${(isH?c.parsed.x:c.parsed.y).toLocaleString('es-CO')} uds`}}},
+  scales:{x:{grid:isH?grd:{display:false},ticks:{...tk,callback:v=>isH?v.toLocaleString('es-CO'):v,maxRotation:0}},y:{grid:isH?{display:false}:grd,ticks:{...tk,callback:v=>!isH?v.toLocaleString('es-CO'):v}}}}});
+}
+function rCliente(){
+  const m=aggBy(FILT,'cliente');const s=Object.entries(m).sort((a,b)=>b[1]-a[1]);
+  mu('ch-cliente',{type:'doughnut',data:{labels:s.map(e=>e[0]),datasets:[{data:s.map(e=>e[1]),backgroundColor:PAL.map(c=>c+'CC'),borderColor:'#fff',borderWidth:2}]},
+  options:{responsive:true,maintainAspectRatio:false,cutout:'50%',plugins:{legend:{position:'bottom',labels:{font:{size:10,family:"'Barlow Semi Condensed',sans-serif"},boxWidth:10,padding:8,color:'#3A3A3A'}},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.parsed.toLocaleString('es-CO')} uds`}}}}});
+}
+function rTablaCiudad(){
+  const m=aggBy(FILT,'ciudad');const regM={};FILT.forEach(r=>regM[r.ciudad]=(regM[r.ciudad]||0)+1);
+  const s=Object.entries(m).sort((a,b)=>b[1]-a[1]);const tot=s.reduce((t,e)=>t+e[1],0);
+  g('tb-ciudad').innerHTML=s.map(([c,u],i)=>{const pct=tot>0?(u/tot*100):0,w=Math.round(pct);return`<tr><td class="tp">${i+1}</td><td><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${PAL[i%PAL.length]};margin-right:7px;vertical-align:middle"></span>${c}</td><td class="tu">${u.toLocaleString('es-CO')}</td><td class="tp">${(regM[c]||0).toLocaleString('es-CO')}</td><td class="tp">${pct.toFixed(1)}%</td><td><div class="tbar"><span style="width:${w}%;background:${PAL[i%PAL.length]}"></span></div></td></tr>`;}).join('');
+}
+function rTablaCliente(){
+  const m=aggBy(FILT,'cliente');const regM={};FILT.forEach(r=>regM[r.cliente]=(regM[r.cliente]||0)+1);
+  const s=Object.entries(m).sort((a,b)=>b[1]-a[1]);const tot=s.reduce((t,e)=>t+e[1],0);
+  g('tb-cliente').innerHTML=s.map(([c,u],i)=>{const pct=tot>0?(u/tot*100):0,w=Math.round(pct);return`<tr><td class="tp">${i+1}</td><td><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${PAL[i%PAL.length]};margin-right:7px;vertical-align:middle"></span><span class="tc">${c}</span></td><td class="tu">${u.toLocaleString('es-CO')}</td><td class="tp">${(regM[c]||0).toLocaleString('es-CO')}</td><td class="tp">${pct.toFixed(1)}%</td><td><div class="tbar"><span style="width:${w}%;background:${PAL[i%PAL.length]}"></span></div></td></tr>`;}).join('');
+}
+function rKPIs(){
+  const tot=FILT.reduce((s,r)=>s+r.unidades,0);const dias=uniq(FILT.map(r=>r._dk));
+  const prom=dias.length>0?Math.round(tot/dias.length):0;
+  const mDia=aggBy(FILT,'_dk');const pico=Object.entries(mDia).sort((a,b)=>b[1]-a[1])[0];
+  const mC=aggBy(FILT,'ciudad'),mCl=aggBy(FILT,'cliente');
+  const lC=Object.entries(mC).sort((a,b)=>b[1]-a[1])[0];
+  const lCl=Object.entries(mCl).sort((a,b)=>b[1]-a[1])[0];
+  const dks=dias.sort();const fi=dks[0]?fmtDia(dks[0]):'–';const fc=dks.slice(-1)[0]?fmtDia(dks.slice(-1)[0]):'–';
+  g('kv0').textContent=tot.toLocaleString('es-CO');g('kv1').textContent=FILT.length.toLocaleString('es-CO');
+  g('kv2').textContent=uniq(FILT.map(r=>r.ciudad)).length;g('kv3').textContent=uniq(FILT.map(r=>r.cliente)).length;
+  g('kv4').textContent=pico?pico[1].toLocaleString('es-CO'):'–';g('ks4').textContent=pico?fmtDiaFull(pico[0]):'pico operativo';
+  g('ks0').textContent=`${uniq(FILT.map(r=>r.ciudad)).length} ciudades`;
+  g('s-per').textContent=fi===fc?fi:`${fi} → ${fc}`;g('s-cl').textContent=lC?lC[0]:'–';
+  g('s-cc').textContent=lCl?lCl[0]:'–';g('s-pd').textContent=prom.toLocaleString('es-CO')+' uds';g('s-dd').textContent=dias.length;
+}
+function g(id){return document.getElementById(id);}
+function render(){rKPIs();rTend();rCiudad();rCliente();rTablaCiudad();rTablaCliente();}
+function swT(m,btn){tMode=m;btn.closest('.tabs').querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));btn.classList.add('on');rTend();}
+function swCiudad(a,btn){cAxis=a;btn.closest('.tabs').querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));btn.classList.add('on');rCiudad();}
+['f-ciudad','f-cliente','f-mes','f-semana','f-dia'].forEach(id=>g(id).addEventListener('change',applyF));
+async function fetchCSV(url){
+  for(let pi=0;pi<PROXIES.length;pi++){
+    const pu=PROXIES[pi](url+(url.includes('?')?'&':'?')+'_='+Date.now());
+    g('lmsg').textContent=pi===0?'CONECTANDO · · ·':`REINTENTANDO (${pi}) · · ·`;
+    try{const r=await fetch(pu,{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);const txt=await r.text();if(txt.includes('<html')||txt.includes('<!DOCTYPE'))throw new Error('HTML en lugar de CSV');return txt;}
+    catch(e){console.warn(`Proxy ${pi}:`,e.message);}
+  }
+  throw new Error('No se pudo obtener el CSV');
+}
+async function load(){
+  const url=localStorage.getItem(SK)||DEFAULT_URL;
+  if(url==='PEGA_AQUI_LA_URL_CSV_DE_DATA_PLANA'){
+    g('loader').style.display='none';g('mc').style.display='grid';
+    g('mc').insertAdjacentHTML('afterbegin',`<div class="err"><strong>⚙ Activa el tablero pegando la URL del Sheet</strong><br><br><strong>Paso 1.</strong> Sube <code>QUICK_Crossdocking_2026.xlsx</code> a Google Sheets<br><strong>Paso 2.</strong> Archivo → Publicar en la web → hoja <strong>DATA_PLANA</strong> → <strong>CSV</strong> → Publicar → copia la URL<br><strong>Paso 3.</strong> Haz clic en <strong>⚙ URL Sheet</strong> (abajo a la derecha) y pega la URL</div>`);
+    return;
+  }
+  try{
+    const txt=await fetchCSV(url);RAW=parseCSV(txt);
+    if(RAW.length===0)throw new Error('El CSV no tiene filas válidas. Verifica que sea la hoja DATA_PLANA con columnas FECHA, CIUDAD, CLIENTE, UNIDADES.');
+    popF();FILT=[...RAW];render();
+    g('ts').textContent='Actualizado '+new Date().toLocaleTimeString('es-CO');
+    g('loader').style.display='none';g('mc').style.display='grid';
+  }catch(e){
+    g('loader').style.display='none';g('mc').style.display='grid';
+    g('mc').insertAdjacentHTML('afterbegin',`<div class="err"><strong>⚠ ${e.message}</strong><br><br>Haz clic en <strong>⚙ URL Sheet</strong> para actualizar la URL.</div>`);
+  }
+}
+function doCfg(){const u=prompt('URL CSV de Google Sheets (hoja DATA_PLANA):',localStorage.getItem(SK)||'');if(u!==null&&u.trim()){localStorage.setItem(SK,u.trim());location.reload();}}
+load();setInterval(load,REFRESH);
+</script>
+</body>
+</html>
